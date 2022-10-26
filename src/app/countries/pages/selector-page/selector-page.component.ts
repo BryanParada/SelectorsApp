@@ -1,4 +1,5 @@
 import { Component  } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface MenuItem {
   text: string;
@@ -12,17 +13,17 @@ interface MenuItem {
   ]
 })
 export class SelectorPageComponent  {
-
-  selectorMenu: MenuItem[] = [
-    {
-    text: 'Selector',
-    route: './countries/selector'
-    } 
-  ]
-
-  constructor() { }
  
+  myFormSelector: FormGroup = this.fb.group({
+    region: ['', Validators.required]
+  })
 
+  constructor( private fb: FormBuilder) { }
+ 
+  save(){
+    console.log(this.myFormSelector.value);
+    
+  }
 
 
 }
