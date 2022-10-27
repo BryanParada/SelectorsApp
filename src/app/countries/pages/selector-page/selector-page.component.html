@@ -3,6 +3,7 @@
 
 <form [formGroup]="myFormSelector" (ngSubmit)="save()">
 
+    <!-- Continents -->
     <div class="row mb-3">
         <div class="col">
             <label class="form-label"> Continent</label>
@@ -11,6 +12,19 @@
                 <option value=""> -- Select Continent -- </option>
                 <option *ngFor="let region of regions" 
                         [value]="region | lowercase "> {{region}} </option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Countries -->
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label"> Countries</label>
+            <select class="form-control"
+                    formControlName="country">
+                <option value=""> -- Select Country -- </option>
+                <option *ngFor="let country of countries" 
+                        [value]="country.alpha3Code | lowercase "> {{country.name}} </option>
             </select>
         </div>
     </div>
