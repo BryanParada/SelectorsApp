@@ -28,6 +28,9 @@ export class SelectorPageComponent implements OnInit  {
   countries: CountrySmall[] = [];
   borders: string[]         = [];
 
+  // UI
+  loading: boolean = false;
+
   constructor( private fb: FormBuilder,
                private countriesService: CountriesService) { }
  
@@ -55,6 +58,8 @@ export class SelectorPageComponent implements OnInit  {
         .pipe(//                                  ^ 
           tap( ( _ )  =>{//                       b
             this.myFormSelector.get('country')?.reset('');
+            // this.myFormSelector.get('borders')?.disable();
+            this.loading = true;
           }),//                                   P 
           //obtiene valor producto del observable ^
           //         |    ---------------------------------------------------
@@ -65,6 +70,7 @@ export class SelectorPageComponent implements OnInit  {
         )
         .subscribe( countries =>{
           //console.log(countries); //*1
+          this.loading = false;
           this.countries = countries;
         })
 
@@ -72,14 +78,17 @@ export class SelectorPageComponent implements OnInit  {
      this.myFormSelector.get('country')?.valueChanges
          .pipe(
           tap( ( ) =>{
-            this.borders = [];
+            // this.borders = [];
             this.myFormSelector.get('borders')?.reset('');
+            //this.myFormSelector.get('borders')?.enable();
+            this.loading = true;
           }),
           switchMap( code => this.countriesService.getCountryByCode( code ))
          )
          .subscribe( country => { 
           console.log(country);
           this.borders = country?.borders || []; // para entender por qué puede regresar un arreglo vacio: posicionarse en el objeto que retorna el subscribe ( country)
+          this.loading = false;
          })
 
       
