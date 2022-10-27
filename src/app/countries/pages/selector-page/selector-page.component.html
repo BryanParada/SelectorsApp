@@ -1,5 +1,5 @@
 <h1 class="mt-5"> Nested Selectors </h1>
-<hr>
+<hr> 
 
 <form [formGroup]="myFormSelector" (ngSubmit)="save()">
 
@@ -44,9 +44,8 @@
 
         <div class="row" *ngIf="loading">
             <div class="col">   
-                <div class="alert alert-primary">
-                    Loading...
-                </div>
+                <mat-spinner style="margin:0 auto;" 
+                mode="indeterminate"></mat-spinner>
             </div>
         </div>
 
@@ -56,6 +55,8 @@
                     type="submit">Select</button>
         </div>
     </div>
+ 
+
 
 </form>
 
@@ -63,3 +64,9 @@
 <h3>Form</h3>
 <pre> Valid: {{myFormSelector.valid}}</pre>
 <pre> {{myFormSelector.value | json}}</pre>
+
+<!-- <mat-grid-list cols="1" >
+    <mat-grid-tile> -->
+         <!-- <mat-spinner *ngIf="loading"></mat-spinner> -->
+    <!-- </mat-grid-tile>
+</mat-grid-list> -->

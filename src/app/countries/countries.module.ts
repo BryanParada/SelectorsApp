@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CountriesRoutingModule } from './countries-routing.module';
 import { SelectorPageComponent } from './pages/selector-page/selector-page.component';
-
+import { MaterialModule } from "../material/material/material.module";
 
 @NgModule({
   declarations: [
@@ -13,7 +13,8 @@ import { SelectorPageComponent } from './pages/selector-page/selector-page.compo
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    CountriesRoutingModule
+    CountriesRoutingModule,
+    MaterialModule
   ]
 })
 export class CountriesModule { }
