@@ -2,6 +2,7 @@ import { Component, OnInit  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CountriesService } from '../../services/countries.service';
 import { CountrySmall } from '../../interfaces/countries.interface';
+import { switchMap, tap } from 'rxjs';
 
 interface MenuItem {
   text: string;
@@ -32,18 +33,39 @@ export class SelectorPageComponent implements OnInit  {
 
     this.regions = this.countriesService.regions;
 
-    //when region changes
+
+    // -*-*-*-*-*-*-*-* OPCION 1 -*-*-*-*-*-*-*-*
+    // //when region changes
+    // this.myFormSelector.get('region')?.valueChanges
+    //     .subscribe( region =>{
+    //       // console.log(region);
+    //       this.countriesService.getCountriesByRegion(region)
+    //           .subscribe( countries => {
+    //             this.countries = countries
+    //             // console.log(countries); 
+    //           }) 
+    //     })
+
+    // -*-*-*-*-*-*-*-* OPCION 2 -*-*-*-*-*-*-*-*
+    // comentar zona de pipe para ver el efecto en el console.log *1
+    // cambiar a tap(region) para obtener valor de region antes de que cambie a countries en el subscribe (opcional)
     this.myFormSelector.get('region')?.valueChanges
-        .subscribe( region =>{
-          // console.log(region);
-          this.countriesService.getCountriesByRegion(region)
-              .subscribe( countries => {
-                this.countries = countries
-                // console.log(countries);
-                
-              })
+        .pipe(//                                  ^ 
+          tap( ( _ )  =>{//                       b
+            this.myFormSelector.get('country')?.reset('');
+          }),//                                   P 
+          //obtiene valor producto del observable ^
+          //         |    ---------------------------------------------------
+          //         |   |                                                 V  
+          switchMap( region => this.countriesService.getCountriesByRegion(region) )  //esto regresará un nuevo observable v
+ 
           
+        )
+        .subscribe( countries =>{
+          console.log(countries); //*1
+          this.countries = countries;
         })
+
       
   }
 
