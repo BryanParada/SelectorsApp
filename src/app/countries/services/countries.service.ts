@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { Country, CountrySmall } from '../interfaces/countries.interface';
 
 @Injectable({
@@ -36,5 +36,28 @@ export class CountriesService {
 
     const url = `${this._baseUrl}/alpha/${ code }`
     return this.http.get<Country>(url);
+  }
+
+  getCountryByCodeSmall (code: string): Observable<CountrySmall>{ 
+ 
+    const url = `${this._baseUrl}/alpha/${ code }?fields=alpha3Code,name`
+    return this.http.get<CountrySmall>(url);
+  }
+
+  getCountriesByCodes( borders: string[] ): Observable<CountrySmall[]>{
+    if (!borders){//                                               ^
+      return of([]);//---------------------------------------------|
+    }
+
+    const requests: Observable<CountrySmall>[] = [];
+
+    borders.forEach( code => {
+      const requ = this.getCountryByCodeSmall(code)
+      requests.push( requ ); 
+      
+    }) 
+    
+    return combineLatest( requests ); //combineLatest regresa un Observable, que contiene un arreglo con todas las peticiones internas
+
   }
 }

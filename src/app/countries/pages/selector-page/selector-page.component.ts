@@ -26,7 +26,8 @@ export class SelectorPageComponent implements OnInit  {
   // fill selectors
   regions: string[]         = [];
   countries: CountrySmall[] = [];
-  borders: string[]         = [];
+  // borders: string[]         = [];
+  borders: CountrySmall[]   = [];
 
   // UI
   loading: boolean = false;
@@ -83,11 +84,14 @@ export class SelectorPageComponent implements OnInit  {
             //this.myFormSelector.get('borders')?.enable();
             this.loading = true;
           }),
-          switchMap( code => this.countriesService.getCountryByCode( code ))
+          switchMap( code => this.countriesService.getCountryByCode( code )),
+          switchMap( country => this.countriesService.getCountriesByCodes( country?.borders!)) // country?  opcional?, borders! non-null assertion operator= no puede ser nulo
+
          )
          .subscribe( country => { 
           console.log(country);
-          this.borders = country?.borders || []; // para entender por qué puede regresar un arreglo vacio: posicionarse en el objeto que retorna el subscribe ( country)
+          //this.borders = country?.borders || []; // para entender por qué puede regresar un arreglo vacio: posicionarse en el objeto que retorna el subscribe ( country)
+          this.borders = country;  
           this.loading = false;
          })
 

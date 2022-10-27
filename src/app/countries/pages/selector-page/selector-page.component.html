@@ -37,7 +37,7 @@
                         formControlName="borders">
                     <option value=""> -- Select Border -- </option>
                       <option *ngFor="let border of borders" 
-                            [value]="border | lowercase "> {{border}} </option>  
+                            [value]="border.alpha3Code"> {{border.name}} </option>  
                 </select>
             </div>
         </div>
