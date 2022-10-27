@@ -24,8 +24,9 @@ export class SelectorPageComponent implements OnInit  {
   })
 
   // fill selectors
-  regions: string[] = [];
+  regions: string[]         = [];
   countries: CountrySmall[] = [];
+  borders: string[]         = [];
 
   constructor( private fb: FormBuilder,
                private countriesService: CountriesService) { }
@@ -69,9 +70,16 @@ export class SelectorPageComponent implements OnInit  {
 
         //Cuando cambia el pais
      this.myFormSelector.get('country')?.valueChanges
-         .subscribe( country => {
+         .pipe(
+          tap( ( ) =>{
+            this.borders = [];
+            this.myFormSelector.get('borders')?.reset('');
+          }),
+          switchMap( code => this.countriesService.getCountryByCode( code ))
+         )
+         .subscribe( country => { 
           console.log(country);
-          
+          this.borders = country?.borders || []; // para entender por qué puede regresar un arreglo vacio: posicionarse en el objeto que retorna el subscribe ( country)
          })
 
       

@@ -19,7 +19,7 @@ export class CountriesService {
   constructor( private http: HttpClient) { }
 
   getCountriesByRegion ( region: string) : Observable<CountrySmall[]>{
-
+    //se utiliza CountrySmall[] ya que se puede acceder a mas de un campo, ej: country.name, country.alpha3Code 
     const url: string = `${ this._baseUrl}/region/${ region }?fields=alpha3Code,name`
 
     return this.http.get<CountrySmall[]>( url );
@@ -27,6 +27,7 @@ export class CountriesService {
   }
 
   getCountryByCode (code: string): Observable<Country | null>{
+    //se utiliza Country solamente puesto que solo entregara un campo
 
     if (!code) {
       //return {} // <--- objeto literal / objeto en blanco, no es un observable ni <Country></Country>

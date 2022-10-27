@@ -36,8 +36,8 @@
                 <select class="form-control"
                         formControlName="borders">
                     <option value=""> -- Select Border -- </option>
-                    <!-- <option *ngFor="let country of countries" 
-                            [value]="country.alpha3Code | lowercase "> {{country.name}} </option> -->
+                      <option *ngFor="let border of borders" 
+                            [value]="border | lowercase "> {{border}} </option>  
                 </select>
             </div>
         </div>
