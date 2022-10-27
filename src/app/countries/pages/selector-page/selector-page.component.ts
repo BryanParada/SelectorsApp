@@ -19,7 +19,8 @@ export class SelectorPageComponent implements OnInit  {
  
   myFormSelector: FormGroup = this.fb.group({
     region : ['', Validators.required],
-    country: ['', Validators.required]
+    country: ['', Validators.required],
+    borders: ['', Validators.required]
   })
 
   // fill selectors
@@ -62,9 +63,16 @@ export class SelectorPageComponent implements OnInit  {
           
         )
         .subscribe( countries =>{
-          console.log(countries); //*1
+          //console.log(countries); //*1
           this.countries = countries;
         })
+
+        //Cuando cambia el pais
+     this.myFormSelector.get('country')?.valueChanges
+         .subscribe( country => {
+          console.log(country);
+          
+         })
 
       
   }

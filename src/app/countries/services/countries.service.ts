@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CountrySmall } from '../interfaces/countries.interface';
+import { Observable, of } from 'rxjs';
+import { Country, CountrySmall } from '../interfaces/countries.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +24,16 @@ export class CountriesService {
 
     return this.http.get<CountrySmall[]>( url );
 
+  }
+
+  getCountryByCode (code: string): Observable<Country | null>{
+
+    if (!code) {
+      //return {} // <--- objeto literal / objeto en blanco, no es un observable ni <Country></Country>
+      return of(null)   // <--- of permite entregar un nuevo observable
+    }
+
+    const url = `${this._baseUrl}/alpha/${ code }`
+    return this.http.get<Country>(url);
   }
 }
