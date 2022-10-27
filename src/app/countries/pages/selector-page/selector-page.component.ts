@@ -1,5 +1,6 @@
-import { Component  } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CountriesService } from '../../services/countries.service';
 
 interface MenuItem {
   text: string;
@@ -12,16 +13,26 @@ interface MenuItem {
   styles: [
   ]
 })
-export class SelectorPageComponent  {
+export class SelectorPageComponent implements OnInit  {
  
   myFormSelector: FormGroup = this.fb.group({
     region: ['', Validators.required]
   })
 
-  constructor( private fb: FormBuilder) { }
+  // fill selectors
+  regions: string[] = [];
+
+  constructor( private fb: FormBuilder,
+               private countriesService: CountriesService) { }
  
+  ngOnInit(): void {
+
+    this.regions = this.countriesService.regions;
+      
+  }
+
   save(){
-    console.log(this.myFormSelector.value);
+    console.log(this.myFormSelector.value); 
     
   }
 
